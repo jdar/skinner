@@ -1,0 +1,13 @@
+#! /usr/bin/env ruby -rubygems
+
+require File.join(File.dirname(__FILE__), "..", "lib", "skinner")
+
+# A way to extend Skinner is to write tasks in a Thorfile in the project's root directory.
+# Skinner loads the Thorfile if there is one, and all the tasks that are declared in the
+# class Skinner become available.
+if File.exists?("Thorfile")
+  load("Thorfile")
+end
+
+# Start the skinner tasks.
+Skinner.start

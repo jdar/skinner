@@ -1,0 +1,19 @@
+<% require "lib/skinner" -%>
+Gem::Specification.new do |s|
+  s.name              = "skinner"
+  s.version           = "<%= Skinner::VERSION %>"
+  s.summary           = "Skinner, the gem publisher"
+  s.description       = "Skinner is BDD-based black magic."
+  s.authors           = ["Darius Roberts"]
+  s.email             = ["darius.roberts@gmail.com"]
+  s.homepage          = "http://github.com/jdar/skinner"
+  s.files = <%= Dir[
+    "LICENSE",
+    "README*",
+    "bin/*",
+    "lib/**/*.rb"
+  ].inspect %>
+
+  s.executables.push("skinner")
+  s.add_dependency("thor", "~> 0.11")
+end
