@@ -1,5 +1,4 @@
 /skinner.gemspec
-/buildcases
 /pkg
-
+example/app/*
 /todo.markdown

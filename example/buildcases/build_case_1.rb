@@ -1,5 +1,4 @@
-require 'lib/build_case'
-
+require 'build_case'
 class BuildCase1 < BuildCase 
 
   def test_truth

@@ -2,6 +2,12 @@ require 'buildcases/build_case_1'
 
 class PhotosAreRankable < BuildCase1
 
+  def test_truth
+    assert true
+  end
+  
+  def test_failure; assert true end
+
   def test_photo_new_returns_photo
     Photo.new
   end

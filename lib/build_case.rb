@@ -1,8 +1,12 @@
+require 'remote_build'
+require 'method_registry'
+
 class BuildCase < Test::Unit::TestCase
   class << self
     def suite; super.extend RemoteBuild end
 #    include MethodRegistry
   end
+   
    def run(result)
       yield(STARTED, name)
       @_result = result
