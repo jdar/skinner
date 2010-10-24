@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby -rubygems
 
 require File.join(File.dirname(__FILE__), "..", "lib", "skinner")
+# require thor generator for 'sunspot'
 
 # A way to extend Skinner is to write tasks in a Thorfile in the project's root directory.
 # Skinner loads the Thorfile if there is one, and all the tasks that are declared in the

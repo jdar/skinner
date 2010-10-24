@@ -12,11 +12,7 @@ Skinner looks in your current directory for a folder 'buildcases/' which contain
 
     $ skinner build
 
-The penitent man* will now have a working base-app in `app`.
-
-    $ skinner test
-
-Feel free to run repeatedly and compare `app/*` versions, using the `--revisions` flag.
+The penitent man* will now have a block of code in `app`. ... looking through this might give you a good idea of what libraries might be useful. At this time, the generated code is not expected to actually work... just suggest approaches or specific libraries.
 
 
 Installation
@@ -32,13 +28,7 @@ That's (basically) it. For a list of available tasks:
 How It Works
 ------------
 
-It doesn't. Yet. But theoretically it works by 1) indexing commonalities in Rails repositories on github 2) looking for similar test signatures 3) path dependency resolution 4) telling you what it's confused about so you can specify more specif-ical-ly.
-
-
-Thanks
-------
-
-Thanks to Thor and Joe.
+It doesn't. Yet. But theoretically it works by 1) indexing commonalities in Rails repositories on github 2) looking for similar test signatures
 
 
 License

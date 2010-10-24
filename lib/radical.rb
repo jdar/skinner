@@ -1,0 +1,1 @@
+require 'radical/behavioralism.rb'

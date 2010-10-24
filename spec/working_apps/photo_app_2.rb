@@ -1,6 +1,5 @@
 class Ranking
   include Comparable
-  attr_accessor :rank
   def initialize(rank); @rank=rank end
   def <=>(other); self.rank < other.rank end
 end

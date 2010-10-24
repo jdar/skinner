@@ -6,35 +6,32 @@ require 'test/unit'
 require 'rubygems'
 require 'curb'
 require 'mocha'
-Curl::Easy.stubs(:http_post).returns("class Something; end")
+Curl::Easy.stubs(:http_post).returns("true")
 
   gem_path = File.join(Dir["#{Gem.path.first}/gems/skinner*"].first, 'lib')
 #  $:.unshift()
   Test::Unit.run=true #silence initial load of BuildCase base class
-  (
-  Dir[File.join gem_path, "core_ext/*"] +
-  %w(remote_build method_registry build_case) +
-  Dir[File.join gem_path, "ui/remote/*"]
-  ).each do |path|
-    require path 
+  %w(
+  core_ext/*
+  remote_build method_registry build_case
+  ui/remote/*
+  ).each do |glob_pattern|
+    for path in Dir[File.join gem_path, glob_pattern]
+      require path || path + ".rb"
+    end
   end
 
-Test::Unit::TestCase.extend MethodRegistry
-Test::Unit::AutoRunner #.extend
-
-class Skinner < Thor
+class Harvester < Thor
   VERSION = "0.0.1"
   include Thor::Actions
   class Sandbox; end # some gem for a sandbox-env?
 
-  desc "build my_model", "Generate a code file from the available buildcases/*"
-  method_option :overwrite, :aliases => "-o", :type=>:string, :default=>"app/%s.%d.rb" #, :desc => 'outputs to a specific pattern containing a \d and \s, if given. Or the apps folder if otherwise not false.'
-  method_options %w(alias -a) => :boolean
-  method_options %w(preserve -p) => false
-  def build(name)
-    @name = name.underscore || "application"
-    raise 'error' if buildsuite.tests.empty?
-    contents = remote("build", buildsuite) 
+  desc "harvest", "Run tests from a code file and send remote. (:controllers or functional is also an option)"
+  method_option :tests, :aliases => "-e", :type=>:string, :default=>"test/**/*.rb" #, :desc => 'outputs to a specific pattern containing a \d and \s, if given. Or the apps folder if otherwise not false.'
+  method_option :class_name
+  def harvest(test_type)    
+    @test_type = case test_type.to_s; when /controller/i,/functional/i; 'functional'; else; 'model' end
+    contents = remote("index", buildsuite) 
         
     if app_file = register(contents, options[:overwrite]) {|code, pattern| save(code, pattern) }
       say_status :created, app_file
@@ -102,21 +99,6 @@ protected
   rescue ArgumentError
     raise ArgumentError, "No buildcases found; Is there a directory '#{File.dirname options[:from]}' with some non-inheritable files?"
   end
-=begin
-def buildsuite(options = {:from=>'buildcases/**/*.rb', :inheritable=>/build_case/})
-  @buildcases ||= begin
-    buildcases = buildfiles(options[:from], options)    
-    if buildcases.empty?    
-      raise ArgumentError, "No buildcases found; Is there a directory '#{File.dirname options[:from]}' with some non-inheritable files?"
-    end
-    Test::Unit::TestCase.send :include, MethodRegistry
-    buildcases.select {|b| b.attribute_source }
-  end
-end
-
-=end
-
-
 
   def app_file(name = nil, pattern=nil)
     # find my_model.rb

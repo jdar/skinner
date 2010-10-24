@@ -2,3 +2,5 @@
 /pkg
 example/app/*
 /todo.markdown
+solr/
+
